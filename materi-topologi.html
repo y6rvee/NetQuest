@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>Topologi Jaringan — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="dash">
+  <aside class="sidebar" id="sideBar"></aside>
+  <div class="dash-main">
+    <div class="topbar" id="topBar"></div>
+    <main class="dash-content">
+      <a class="back-link" href="materi.html">← Semua materi</a>
+      <div class="page-head"><div><span class="eyebrow">Modul 5 · Menengah · Fase F</span><h2>Topologi Jaringan</h2></div></div>
+      <div class="lesson-wrap">
+<div class="lesson"><h4>📖 Apa itu Topologi Jaringan?</h4>
+      <p>Topologi jaringan adalah <b>cara/pola susunan</b> perangkat (komputer, switch, router) dalam sebuah jaringan — bagaimana mereka terhubung satu sama lain. Ibarat <b>denah rumah</b>: sebelum membangun jaringan, kita tentukan dulu "denah" koneksinya supaya efisien dan mudah dirawat.</p></div>
+    <div class="lesson"><h4>⭐ Topologi Star</h4>
+      <p>Semua node terhubung ke satu titik pusat (<b>switch/hub</b>). Ini topologi yang paling umum di LAN sekolah/kantor saat ini.</p>
+      <ul><li>✅ Kelebihan: mudah dikelola, jika satu kabel putus hanya 1 node terpengaruh, mudah tambah perangkat.</li>
+      <li>❌ Kekurangan: tergantung pada switch pusat; butuh kabel lebih banyak dari Bus.</li></ul></div>
+    <div class="lesson"><h4>🚌 Topologi Bus</h4>
+      <p>Semua node terhubung ke <b>satu kabel backbone</b> panjang dengan terminator di ujungnya.</p>
+      <ul><li>✅ Kelebihan: hemat kabel, murah, cocok untuk jaringan kecil sementara.</li>
+      <li>❌ Kekurangan: jika backbone putus <b>seluruh jaringan mati</b>, sulit mencari kerusakan, performa menurun saat padat.</li></ul></div>
+    <div class="lesson"><h4>⭕ Topologi Ring</h4>
+      <p>Node terhubung <b>melingkar seperti cincin</b>; data berjalan searah (atau dua arah pada Ring ganda) dari satu node ke node berikutnya.</p>
+      <ul><li>✅ Kelebihan: performa stabil, tidak ada tabrakan data (token passing).</li>
+      <li>❌ Kekurangan: satu node rusak bisa mengganggu jalur; sulit memperluas.</li></ul></div>
+    <div class="lesson"><h4>🕸️ Topologi Mesh</h4>
+      <p>Setiap node terhubung <b>langsung ke banyak/bahkan semua node lain</b> — tidak ada titik pusat. Dipakai pada jaringan yang butuh keandalan tinggi (contoh: backbone internet).</p>
+      <ul><li>✅ Kelebihan: sangat andal, banyak jalur cadangan.</li>
+      <li>❌ Kekurangan: <b>kabel dan biaya paling mahal</b>, konfigurasi rumit.</li></ul></div>
+    <div class="lesson"><h4>🌳 Topologi Tree (Hierarki)</h4>
+      <p>Kombinasi Star dan Bus: beberapa topologi Star dihubungkan ke satu <b>backbone pusat</b>. Sering dipakai di gedung bertingkat — tiap lantai satu Star, semuanya terhubung ke pusat.</p></div>
+    <div class="lesson"><h4>📊 Perbandingan Cepat</h4>
+      <table class="mini"><tr><th>Topologi</th><th>Titik Pusat</th><th>Biaya Kabel</th><th>Andal Jika Kabel Putus</th></tr>
+      <tr><td>Star</td><td>Ya (switch)</td><td>Sedang</td><td>Tinggi (hanya 1 node)</td></tr>
+      <tr><td>Bus</td><td>Tidak</td><td>Murah</td><td>Rendah (jaringan mati)</td></tr>
+      <tr><td>Ring</td><td>Tidak</td><td>Sedang</td><td>Sedang</td></tr>
+      <tr><td>Mesh</td><td>Tidak</td><td>Mahal</td><td>Sangat tinggi</td></tr>
+      <tr><td>Tree</td><td>Ya (hierarki)</td><td>Sedang–mahal</td><td>Tergantung titik putus</td></tr></table></div>
+    <div class="lesson"><h4>✏️ Tugas Kecil</h4>
+      <p>Gambar topologi Star untuk jaringan 6 komputer + 1 switch di bukumu, lalu uji pemahamanmu di <a href="game-quiz.html"><b>Kuis Kilat</b></a> — soal topologi sudah otomatis masuk ke kuis! 🎯</p></div>
+    <div class="cta-lab">
+      <h3>🎯 Sudah paham? Buktikan!</h3>
+      <p>Uji pemahamanmu tentang topologi dan materi lain di Kuis Kilat.</p>
+      <a href="game-quiz.html" class="btn btn-red">⚡ Ikuti Kuis</a>
+      <a href="materi.html" class="btn btn-outline">📚 Kembali ke Materi</a>
+    </div>
+    <div class="lesson-nav"><a href="materi-web.html">← Kembali: Pemrograman Web</a><a href="game-quiz.html" class="next">Lanjut: Kuis Kilat →</a></div>
+      </div>
+    </main>
+    <footer class="foot" id="pageFoot"></footer>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>renderDash('materi', 'Materi');</script>
+</body>
+</html>

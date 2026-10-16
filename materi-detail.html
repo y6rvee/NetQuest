@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>Materi — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="dash">
+  <aside class="sidebar" id="sideBar"></aside>
+  <div class="dash-main">
+    <div class="topbar" id="topBar"></div>
+    <main class="dash-content">
+      <a class="back-link" href="materi.html">← Semua materi</a>
+      <div class="page-head"><div><span class="eyebrow" id="mLevel">Materi</span> <span id="mSource"></span><h2 id="mTitle">Memuat…</h2><p id="mDesc"></p></div></div>
+      <div class="lesson-wrap" id="mContent"></div>
+
+<section class="panel comments-panel" id="commentPanel" style="display:none">
+  <div class="sec-title" style="margin-bottom:12px">
+    <h3>💬 Diskusi Materi</h3>
+  </div>
+
+  <form id="commentForm" class="comment-form">
+    <textarea
+      id="commentText"
+      maxlength="600"
+      rows="4"
+      placeholder="Tulis pertanyaan, pendapat, atau hal yang belum dipahami…"
+      required></textarea>
+    <button class="btn btn-red" type="submit">Kirim Komentar</button>
+  </form>
+
+  <div id="commentList" class="comment-list"></div>
+</section>
+    </main>
+    <footer class="foot" id="pageFoot"></footer>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/main.js"></script>
+<script>renderDash('materi', 'Materi');</script>
+<script>
+var slug = new URLSearchParams(location.search).get('s');
+var m = NQStore.material(slug);
+var currentUser = NQStore.current();
+
+function formatSummary(text) {
+  if (Array.isArray(text)) {
+    text = text.map(function (x) { return '• ' + x; }).join('\n');
+  }
+  return esc(text || '').replace(/\n/g, '<br>');
+}
+
+function fileSection(item) {
+  var src = item.fileUrl || item.fileData || '';
+  if (!src) return '';
+
+  var name = item.fileName || 'Dokumen materi';
+  var isPdf =
+    /pdf/i.test(item.fileType || '') ||
+    /\.pdf($|\?)/i.test(item.fileUrl || '') ||
+    /\.pdf$/i.test(name);
+
+  var embedSrc = src;
+
+  if (item.fileUrl && !isPdf) {
+    embedSrc =
+      'https://docs.google.com/viewer?embedded=1&url=' +
+      encodeURIComponent(item.fileUrl);
+  }
+
+  var viewer;
+
+  if (isPdf || item.fileUrl) {
+    viewer =
+      '<iframe src="' + esc(embedSrc) + '" title="Pratinjau ' + esc(name) + '"></iframe>';
+  } else {
+    viewer =
+      '<object data="' + esc(src) + '" type="' +
+      esc(item.fileType || 'application/octet-stream') +
+      '"><p>Pratinjau tidak tersedia di browser ini.</p></object>';
+  }
+
+  return (
+    '<section class="panel file-panel">' +
+      '<div class="sec-title" style="margin-bottom:12px">' +
+        '<h3>📎 Berkas Materi</h3>' +
+      '</div>' +
+      '<div class="file-frame">' + viewer + '</div>' +
+      '<div class="file-actions">' +
+        '<span>' + esc(name) + '</span>' +
+        '<a class="btn btn-outline btn-sm" href="' + esc(src) + '" download="' + esc(name) + '" target="_blank" rel="noopener">Unduh / Buka</a>' +
+      '</div>' +
+      '<small class="hint">Jika berkas DOC lama tidak tampil, gunakan tombol unduh atau simpan berkas pada URL publik.</small>' +
+    '</section>'
+  );
+}
+
+function summarySection(item) {
+  if (!item.summary) {
+    /* materi manual tanpa ringkasan: guru bisa membuatkannya (siswa tidak melihat tombol ini) */
+    if (item.source === 'ai' || !NQStore.isGuru() || !(item.content || item.fileData || item.fileUrl)) return '';
+    return '<section class="lesson sum ai-summary" id="sumMissing"><h4>✨ Ringkasan AI untuk Siswa</h4>' +
+      '<p>Materi ini belum punya ringkasan. Buat sekarang agar siswa ikut mendapatkannya.</p>' +
+      '<button class="btn btn-ai btn-sm" id="btnMakeSum" onclick="makeMissingSummary()">✨ Buat ringkasan AI</button></section>';
+  }
+  var isAI = item.source === 'ai';
+
+  return (
+    '<section class="lesson sum ai-summary">' +
+      '<h4>' + (isAI ? '📝 Ringkasan Materi' : '✨ Ringkasan AI dari Materi Guru') + '</h4>' +
+      '<div>' + formatSummary(item.summary) + '</div>' +
+    '</section>'
+  );
+}
+
+async function makeMissingSummary() {
+  var btn = document.getElementById('btnMakeSum');
+  var c = NQStore.aiConfig();
+  if (!c.key && c.endpoint.indexOf('api.groq.com') > -1) { toast('Isi kunci API Groq di Pengaturan AI dulu.', 'err'); return; }
+  btn.disabled = true; btn.textContent = 'Menyusun ringkasan…';
+  try {
+    var r = await NQAI.textFromMaterial(m);
+    var text = r.text;
+    if (text.length < 150) throw new Error('Berkas tidak bisa diringkas' + (r.err ? ': ' + r.err : ' (teks terlalu pendek)') + '.');
+    var sum = await NQAI.makeSummary(text, { title: m.title });
+    NQStore.saveMaterial(Object.assign({}, m, { summary: sum.map(function (x) { return '• ' + x; }).join('\n') }));
+    location.reload();
+  } catch (e) {
+    toast(e.message, 'err');
+    btn.disabled = false; btn.textContent = '✨ Buat ringkasan AI';
+  }
+}
+
+function canDeleteComment(c) {
+  if (!currentUser) return false;
+  return currentUser.role === 'guru' || currentUser.name === c.name;
+}
+
+function renderComments() {
+  var list = NQStore.comments(slug).slice().reverse();
+
+  document.getElementById('commentList').innerHTML = list.map(function (c) {
+    var initial = esc((c.name || '?')[0].toUpperCase());
+    var time = new Date(c.time).toLocaleString('id-ID');
+
+    return (
+      '<article class="comment-item">' +
+        '<div class="comment-avatar">' + initial + '</div>' +
+        '<div class="comment-body">' +
+          '<div class="comment-head">' +
+            '<b>' + esc(c.name) + '</b>' +
+            '<small>' + esc(time) + '</small>' +
+          '</div>' +
+          '<p>' + esc(c.text) + '</p>' +
+          (canDeleteComment(c)
+            ? '<button class="comment-delete" data-id="' + esc(c.id) + '" onclick="deleteComment(this.dataset.id)">Hapus</button>'
+            : '') +
+        '</div>' +
+      '</article>'
+    );
+  }).join('') || '<div class="hint">Belum ada komentar. Jadilah yang pertama bertanya.</div>';
+}
+
+function deleteComment(id) {
+  if (!confirm('Hapus komentar ini?')) return;
+  NQStore.deleteComment(+id);
+  renderComments();
+  toast('Komentar dihapus.');
+}
+
+if (!m) {
+  document.getElementById('mTitle').textContent = 'Materi tidak ditemukan';
+  document.getElementById('mContent').innerHTML =
+    '<div class="empty"><b>Materi ini mungkin sudah dihapus guru.</b>' +
+    '<a class="btn btn-red" style="margin-top:12px" href="materi.html">Kembali ke daftar materi</a></div>';
+} else {
+  document.title = m.title + ' — NetQuest';
+  document.getElementById('mTitle').textContent = m.title;
+  document.getElementById('mLevel').textContent = m.level || 'Materi';
+  document.getElementById('mDesc').textContent = m.desc || '';
+  document.getElementById('mSource').innerHTML = m.source === 'ai'
+    ? '<span class="tag ai">✨ Dibuat dengan AI</span>'
+    : '<span class="tag manual">✍️ Dibuat manual oleh guru</span>';
+
+  var n = NQStore.questionsOf(m.slug).length;
+  var guru = NQStore.isGuru();
+
+  document.getElementById('mContent').innerHTML =
+    summarySection(m) +
+    fileSection(m) +
+    (m.content || ((m.fileData || m.fileUrl) ? '' : '<div class="lesson"><p>Belum ada konten untuk materi ini.</p></div>')) +
+    '<div class="cta-lab">' +
+      '<h3>Sudah paham? Buktikan!</h3>' +
+      '<p>' + (n
+        ? 'Ada ' + n + ' soal latihan untuk materi ini.'
+        : 'Uji pemahamanmu di Kuis Kilat.') + '</p>' +
+      '<a href="game-quiz.html' + (n ? '?m=' + encodeURIComponent(m.slug) : '') + '" class="btn btn-red">⚡ Ikuti Kuis</a>' +
+      '<a href="tools.html" class="btn btn-outline">🎮 Buka Tools</a>' +
+      '<a href="materi.html" class="btn btn-outline">Kembali ke Materi</a>' +
+      (guru
+        ? '<a href="guru.html?tab=materi&edit=' + encodeURIComponent(m.slug) + '" class="btn btn-outline">Edit</a>'
+        : '') +
+    '</div>';
+
+  document.getElementById('commentPanel').style.display = '';
+
+  if (!currentUser) {
+    document.getElementById('commentForm').innerHTML =
+      '<div class="hint">Masuk terlebih dahulu untuk mengikuti diskusi.</div>' +
+      '<a class="btn btn-red btn-sm" style="margin-top:10px" href="login.html">Masuk / Daftar</a>';
+  } else {
+    document.getElementById('commentForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var text = document.getElementById('commentText').value.trim();
+      if (!text) return;
+
+      NQStore.saveComment({
+        materi: slug,
+        name: currentUser.name,
+        text: text
+      });
+
+      document.getElementById('commentText').value = '';
+      renderComments();
+      toast('Komentar terkirim.', 'ok');
+    });
+  }
+
+  renderComments();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>Pemrograman Web Lanjut — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="dash">
+  <aside class="sidebar" id="sideBar"></aside>
+  <div class="dash-main">
+    <div class="topbar" id="topBar"></div>
+    <main class="dash-content">
+      <a class="back-link" href="materi.html">← Semua materi</a>
+      <div class="page-head"><div><span class="eyebrow">Modul 4 · Lanjutan · Kelas XII</span><h2>Pemrograman Web Lanjut</h2></div></div>
+      <div class="lesson-wrap">
+<div class="lesson"><h4>📖 Responsive Web Design</h4>
+<p>Website modern harus tampil rapi di semua ukuran layar: HP, tablet, maupun laptop. Caranya dengan <b>Media Query</b> dan <b>Flexbox/Grid</b>.</p></div>
+<div class="lesson"><h4>📱 Media Query — Ubah Tampilan Sesuai Lebar Layar</h4>
+<div class="code"><span class="cm">/* Layar kecil (HP): tampil 1 kolom */</span>
+.container { display: grid; grid-template-columns: 1fr; }
+
+<span class="cm">/* Layar lebar (laptop): tampil 3 kolom */</span>
+<span class="tag">@media</span> (min-width: 768px) {
+  .container { grid-template-columns: 1fr 1fr 1fr; }
+}</div></div>
+<div class="lesson"><h4>🧰 Tools &amp; Framework Populer</h4>
+<table class="mini"><tr><th>Tool</th><th>Kegunaan</th></tr>
+<tr><td>Bootstrap / Tailwind</td><td>Framework CSS siap pakai</td></tr>
+<tr><td>VS Code</td><td>Editor kode terpopuler</td></tr>
+<tr><td>Git &amp; GitHub</td><td>Manajemen versi &amp; kolaborasi</td></tr>
+<tr><td>Chrome DevTools</td><td>Inspeksi &amp; debug halaman web</td></tr></table></div>
+<div class="lesson"><h4>🚀 Proyek untuk Portofolio</h4>
+<ul><li>Website profil pribadi / portofolio</li><li>Landing page produk UMKM</li><li>Web kuis interaktif (seperti NetQuest ini! 😄)</li></ul>
+<p>Kumpulkan proyek-proyekmu di GitHub — sangat berguna untuk persiapan PKL dan dunia kerja!</p></div>
+<div class="lesson"><h4>🎓 Proyek Akhir Modul</h4><p>Buat halaman web sederhana bertema <b>"Profil Jurusan TKJ"</b> dengan HTML + CSS. Gunakan minimal 5 tag HTML berbeda dan 5 properti CSS. Tunjukkan ke guru atau temanmu!</p></div>
+    <div class="cta-lab">
+      <h3>✏️ Sudah paham? Buktikan!</h3>
+      <p>Coba praktik kode ini di Lab Koding, lalu uji pemahamanmu di Arena Game.</p>
+      <a href="lab.html" class="btn btn-orange">🧪 Buka Lab Koding</a>
+      <a href="games.html" class="btn btn-outline">🎮 Arena Game</a>
+    </div>
+    <div class="lesson-nav"><a href="materi-js.html">← ← JavaScript</a><a href="materi.html" class="next">Kembali ke Materi →</a></div>
+      </div>
+    </main>
+    <footer class="foot" id="pageFoot"></footer>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>renderDash('materi', 'Materi');</script>
+</body>
+</html>

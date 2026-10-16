@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>Masuk — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="auth-wrap">
+  <aside class="auth-side">
+    <a class="logo" href="index.html"><div class="logo-badge">⚡</div><span><b>Net</b>Quest</span></a>
+    <div>
+      <h2>Belajar TKJ jadi lebih seru dan terarah.</h2>
+      <p>Media pembelajaran interaktif berbasis Kurikulum Merdeka untuk siswa SMK Teknik Komputer &amp; Jaringan.</p>
+    </div>
+    <ul class="auth-points">
+      <li><span id="i1"></span><span><b>Materi terstruktur</b><br>Guru mengunggah materi, AI menyusunnya menjadi modul yang rapi.</span></li>
+      <li><span id="i2"></span><span><b>Soal otomatis</b><br>Latihan pilihan ganda lengkap dengan pembahasan.</span></li>
+      <li><span id="i3"></span><span><b>Game &amp; lab koding</b><br>Praktik crimping RJ45, kartu istilah, dan editor kode.</span></li>
+    </ul>
+  </aside>
+  <main class="auth-main">
+    <div class="auth-card">
+      <h2 id="authTitle">Masuk akun</h2>
+      <p class="sub">Guru dan siswa memiliki hak akses berbeda.</p>
+      <div class="tabs">
+        <button id="tabLogin" class="active" onclick="setMode('login')">Masuk</button>
+        <button id="tabReg" onclick="setMode('reg')">Daftar</button>
+      </div>
+      <div class="field" id="fName" style="display:none"><label for="inName">Nama lengkap</label><input id="inName" placeholder="cth: Budi Santoso" autocomplete="name"></div>
+      <div class="field"><label for="inUser">Username</label><input id="inUser" placeholder="cth: budi123" autocomplete="username"></div>
+      <div class="field"><label for="inPass">Password</label><input id="inPass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <div id="roleBox" style="display:none">
+        <label class="label">Daftar sebagai</label>
+        <div class="role-pick">
+          <button id="rpSiswa" class="active" onclick="setRole('siswa')">🎓 Siswa</button>
+          <button id="rpGuru" onclick="setRole('guru')">🛠️ Guru</button>
+        </div>
+        <div class="field" id="fKode" style="display:none"><label for="inKode">Kode guru</label><input id="inKode" placeholder="Kode dari sekolah"></div>
+      </div>
+      <div class="auth-msg" id="authMsg" role="alert"></div>
+      <button class="btn btn-red" id="btnGo" onclick="submitAuth()">Masuk</button>
+    </div>
+  </main>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script>
+var chk = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">';
+document.getElementById('i1').innerHTML = ic('book', 'width="20" height="20"');
+document.getElementById('i2').innerHTML = ic('spark', 'width="20" height="20"');
+document.getElementById('i3').innerHTML = ic('game', 'width="20" height="20"');
+var mode = 'login', role = 'siswa';
+if (NQStore.current()) location.replace(NQStore.isGuru() ? 'guru.html' : 'index.html');
+function setMode(m) {
+  mode = m;
+  document.getElementById('tabLogin').classList.toggle('active', m === 'login');
+  document.getElementById('tabReg').classList.toggle('active', m === 'reg');
+  document.getElementById('fName').style.display = m === 'reg' ? '' : 'none';
+  document.getElementById('roleBox').style.display = m === 'reg' ? '' : 'none';
+  document.getElementById('authTitle').textContent = m === 'login' ? 'Masuk akun' : 'Buat akun baru';
+  document.getElementById('btnGo').textContent = m === 'login' ? 'Masuk' : 'Daftar & masuk';
+  document.getElementById('inPass').autocomplete = m === 'login' ? 'current-password' : 'new-password';
+  document.getElementById('authMsg').textContent = '';
+}
+function setRole(r) {
+  role = r;
+  document.getElementById('rpSiswa').classList.toggle('active', r === 'siswa');
+  document.getElementById('rpGuru').classList.toggle('active', r === 'guru');
+  document.getElementById('fKode').style.display = r === 'guru' ? '' : 'none';
+}
+function msg(t, ok) { var e = document.getElementById('authMsg'); e.textContent = t; e.className = 'auth-msg ' + (ok ? 'ok' : 'err'); }
+function submitAuth() {
+  var u = document.getElementById('inUser').value.trim(), p = document.getElementById('inPass').value, n = document.getElementById('inName').value.trim();
+  if (!u || !p) return msg('Username & password wajib diisi.');
+  var r;
+  if (mode === 'login') {
+    r = NQStore.login(u, p);
+    if (!r.ok) return msg(r.msg);
+    location.href = r.role === 'guru' ? 'guru.html' : 'index.html';
+  } else {
+    if (!n) return msg('Nama lengkap wajib diisi.');
+    if (p.length < 6) return msg('Password minimal 6 karakter.');
+    if (role === 'guru' && document.getElementById('inKode').value.trim() !== 'TKJ-GURU') return msg('Kode guru salah. Hubungi admin sekolah.');
+    r = NQStore.register(n, u, p, role);
+    if (!r.ok) return msg(r.msg);
+    NQStore.login(u, p);
+    location.href = role === 'guru' ? 'guru.html' : 'index.html';
+  }
+}
+document.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitAuth(); });
+</script>
+</body>
+</html>

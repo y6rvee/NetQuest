@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>HTML Dasar — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="dash">
+  <aside class="sidebar" id="sideBar"></aside>
+  <div class="dash-main">
+    <div class="topbar" id="topBar"></div>
+    <main class="dash-content">
+      <a class="back-link" href="materi.html">← Semua materi</a>
+      <div class="page-head"><div><span class="eyebrow">Modul 1 · Pemula · Fase F</span><h2>HTML Dasar</h2></div></div>
+      <div class="lesson-wrap">
+<div class="lesson"><h4>📖 Apa itu HTML?</h4>
+<p>HTML (<b>HyperText Markup Language</b>) adalah bahasa markup untuk membuat struktur halaman web. Bayangkan HTML seperti <b>kerangka rumah</b> — menentukan bagian-bagian seperti pintu, jendela, dan dinding sebelum dihias.</p></div>
+<div class="lesson"><h4>🏗️ Struktur Dasar Dokumen HTML</h4>
+<div class="code"><span class="cm">&lt;!-- Kerangka dasar setiap halaman web --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+  <span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Halaman Pertamaku<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+  <span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Halo Dunia!<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Belajar HTML itu menyenangkan.<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></div></div>
+<div class="lesson"><h4>🧩 Tag-Tag Penting yang Wajib Diketahui</h4>
+<table class="mini"><tr><th>Tag</th><th>Fungsi</th><th>Contoh</th></tr>
+<tr><td>&lt;h1&gt;–&lt;h6&gt;</td><td>Judul / heading</td><td>&lt;h1&gt;Judul Besar&lt;/h1&gt;</td></tr>
+<tr><td>&lt;p&gt;</td><td>Paragraf teks</td><td>&lt;p&gt;Isi paragraf...&lt;/p&gt;</td></tr>
+<tr><td>&lt;a&gt;</td><td>Tautan / link</td><td>&lt;a href="web.html"&gt;Klik&lt;/a&gt;</td></tr>
+<tr><td>&lt;img&gt;</td><td>Menampilkan gambar</td><td>&lt;img src="foto.png"&gt;</td></tr>
+<tr><td>&lt;ul&gt; / &lt;ol&gt;</td><td>Daftar poin / bernomor</td><td>&lt;li&gt;item&lt;/li&gt;</td></tr>
+<tr><td>&lt;div&gt;</td><td>Wadah / container</td><td>&lt;div class="kotak"&gt;&lt;/div&gt;</td></tr></table>
+<p style="margin-top:10px">💡 <b>Tips:</b> tag selalu berpasangan — ada tag pembuka <span class="inline-code">&lt;p&gt;</span> dan penutup <span class="inline-code">&lt;/p&gt;</span>. Ada pula tag tanpa penutup seperti <span class="inline-code">&lt;img&gt;</span> dan <span class="inline-code">&lt;br&gt;</span>.</p></div>
+<div class="lesson"><h4>✏️ Tugas Kecil</h4><p>Buka <a href="lab.html"><b>Lab Koding</b></a>, pilih template HTML, lalu coba ubah teks heading dan tambahkan satu paragraf baru. Jalankan dan lihat hasilnya!</p></div>
+    <div class="cta-lab">
+      <h3>✏️ Sudah paham? Buktikan!</h3>
+      <p>Coba praktik kode ini di Lab Koding, lalu uji pemahamanmu di Arena Game.</p>
+      <a href="lab.html" class="btn btn-orange">🧪 Buka Lab Koding</a>
+      <a href="games.html" class="btn btn-outline">🎮 Arena Game</a>
+    </div>
+    <div class="lesson-nav"><span></span><a href="materi-css.html" class="next">Lanjut: CSS Dasar →</a></div>
+      </div>
+    </main>
+    <footer class="foot" id="pageFoot"></footer>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>renderDash('materi', 'Materi');</script>
+</body>
+</html>

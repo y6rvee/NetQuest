@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>Puzzle RJ45 — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="dash">
+  <aside class="sidebar" id="sideBar"></aside>
+  <div class="dash-main">
+    <div class="topbar" id="topBar"></div>
+    <main class="dash-content">
+      <a class="back-link" href="games.html">← Arena Game</a>
+      <div class="page-head"><div><span class="eyebrow">Puzzle RJ45</span><h2>Simulator crimping kabel</h2>
+        <p>Drag &amp; drop (atau klik) kabel ke konektor RJ45 sesuai urutan standar. Selesaikan sebelum waktu habis!</p></div></div>
+<div class="sim-top">
+      <div class="sim-stat"><b id="stLevel">1</b><span>Level</span></div>
+      <div class="sim-stat"><b id="stMode">T568B</b><span>Standar</span></div>
+      <div class="sim-stat timer"><b id="stTime">75</b><span>Detik</span></div>
+      <div class="sim-stat combo"><b id="stCombo">x0</b><span>Combo</span></div>
+      <div class="sim-stat"><b id="stScore">0</b><span>Skor</span></div>
+    </div>
+
+    <div class="game-wrap">
+      <div class="game-panel game-card-hub" style="--gc:var(--red);padding:28px 24px">
+
+        <div class="sim-stage">
+          <!-- Kabel UTP -->
+          <div class="cable-box">
+            <div class="wire-list" id="wireList"></div>
+          </div>
+
+          <!-- Konektor RJ45 -->
+          <div class="plug-area">
+            <div class="plug-label">KONEKTOR RJ45 — SISI KONTAK KE ATAS, KUNCI KE BAWAH</div>
+            <div class="plug" id="plug">
+              <div class="plug-gold">
+                <div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div>
+                <div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div>
+              </div>
+              <div class="slots-row">
+                <div class="slots" id="slots"></div>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:30px;font-size:.85rem;color:var(--ink-soft)">
+              💡 Klik kabel lalu klik slot, atau <b>drag &amp; drop</b> langsung. Klik slot terisi untuk melepas kabel.
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-controls">
+          <button class="btn btn-red" id="btnCrimp" onclick="crimp()" disabled>🔧 Crimp Konektor!</button>
+          <button class="btn btn-outline" onclick="resetLevel()">🔄 Ulangi Level</button>
+          <button class="btn btn-outline" onclick="toggleHelp()">💡 Panduan Warna</button>
+        </div>
+        <div class="msg" id="rjMsg">Susun kabel sesuai urutan standarnya!</div>
+        <div class="help-box" id="rjHelp" style="display:none">
+          <b>Urutan Warna Kabel UTP (posisi 1–8):</b>
+          <table class="mini" style="margin-top:8px">
+            <tr><th>Pos</th><th>T568B</th><th>T568A</th></tr>
+            <tr><td>1</td><td>Putih-Oranye</td><td>Putih-Hijau</td></tr>
+            <tr><td>2</td><td>Oranye</td><td>Hijau</td></tr>
+            <tr><td>3</td><td>Putih-Hijau</td><td>Putih-Oranye</td></tr>
+            <tr><td>4</td><td>Biru</td><td>Biru</td></tr>
+            <tr><td>5</td><td>Putih-Biru</td><td>Putih-Biru</td></tr>
+            <tr><td>6</td><td>Hijau</td><td>Oranye</td></tr>
+            <tr><td>7</td><td>Putih-Coklat</td><td>Putih-Coklat</td></tr>
+            <tr><td>8</td><td>Coklat</td><td>Coklat</td></tr>
+          </table>
+          <p style="margin-top:8px">🧠 <b>Trik hafalan T568B:</b> "Oranye dulu, lalu Hijau-Biru ditukar, Coklat belakang." Kabel straight-through memakai standar yang sama di kedua ujung!</p>
+        </div>
+      </div>
+
+      <!-- Overlay: hasil level -->
+      <div class="sim-overlay" id="overlay">
+        <div class="overlay-box">
+          <div id="ovContent"></div>
+        </div>
+      </div>
+    </div>
+    </main>
+    <footer class="foot" id="pageFoot"></footer>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>renderDash('games', 'Puzzle RJ45');</script>
+<script src="js/game-rj45.js"></script>
+</body>
+</html>

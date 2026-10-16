@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>Beranda — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="dash">
+  <aside class="sidebar" id="sideBar"></aside>
+  <div class="dash-main">
+    <div class="topbar" id="topBar"></div>
+    <main class="dash-content">
+      <div class="hero-card">
+        <div>
+          <span class="hero-tag">🎓 Kelas XI–XII SMK · Teknik Komputer &amp; Jaringan</span>
+          <h2>Halo, <span class="grad" id="helloName">Sobat TKJ</span>! 👋</h2>
+          <p>Pelajari materi, praktik di lab, lalu uji kemampuanmu lewat game dan kuis. Materi &amp; soal disusun guru dengan bantuan AI.</p>
+        </div>
+        <div id="heroCta"></div>
+      </div>
+
+      <div class="stat-cards" id="stats"></div>
+
+      <div class="sec-title"><h3>Materi terbaru</h3><a href="materi.html">Lihat semua →</a></div>
+      <div class="modul-grid" id="matGrid"></div>
+
+      <div class="sec-title"><h3>Arena game</h3><a href="games.html">Semua game →</a></div>
+      <div class="game-grid">
+        <a class="game-card-hub reveal" style="--gc:var(--red)" href="game-rj45.html"><div class="gicon">🔌</div><h3>Puzzle RJ45</h3><p>Susun 8 urat kabel UTP sesuai standar T568A/B.</p><span class="play">▶ Main sekarang</span></a>
+        <a class="game-card-hub reveal" style="--gc:var(--orange)" href="game-match.html"><div class="gicon">🃏</div><h3>Kartu Cocok</h3><p>Temukan pasangan istilah jaringan dan definisinya.</p><span class="play">▶ Main sekarang</span></a>
+        <a class="game-card-hub reveal" style="--gc:var(--sky-deep)" href="game-quiz.html"><div class="gicon">⚡</div><h3>Kuis Kilat</h3><p>Soal otomatis mengikuti materi terbaru dari guru.</p><span class="play">▶ Main sekarang</span></a>
+      </div>
+    </main>
+    <footer class="foot" id="pageFoot"></footer>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>
+renderDash('beranda', 'Beranda');
+var user = NQStore.current(), guru = NQStore.isGuru();
+document.getElementById('helloName').textContent = user ? user.name.split(' ')[0] : 'Sobat TKJ';
+var mats = NQStore.materials(), qs = NQStore.questions();
+var stat = function (c, icon, n, l) { return '<div class="stat-card"><div class="sc-icon" style="--sc:' + c + ';background:' + c + '">' + ic(icon) + '</div><div><b>' + n + '</b><span>' + l + '</span></div></div>'; };
+var qcount = {};
+qs.forEach(function (q) { qcount[q.materi] = (qcount[q.materi] || 0) + 1; });
+document.getElementById('stats').innerHTML =
+  stat('var(--red)', 'book', mats.length, 'Modul materi') + stat('var(--orange)', 'bolt', qs.length, 'Soal kuis')
+  + stat('var(--sky-deep)', 'game', 3, 'Game seru') + stat('var(--green)', 'flask', 1, 'Lab koding');
+document.getElementById('heroCta').innerHTML = guru
+  ? '<a class="btn btn-ai btn-lg" href="guru.html?tab=ai">' + ic('spark', 'width="18" height="18"') + ' Buat materi dengan AI</a>'
+  : '<a class="btn btn-red btn-lg" href="materi.html">Mulai belajar →</a>';
+document.getElementById('matGrid').innerHTML = mats.slice(-6).reverse().map(function (m) {
+  var n = qs.filter(function (q) { return q.materi === m.slug; }).length;
+  return '<a class="modul reveal" style="--mc:' + esc(m.color) + '" href="' + esc(m.url) + '"><div class="icon">' + nqIcon(m.icon) + '</div><h3>' + esc(m.title) + '</h3><p>' + esc(m.desc) + '</p>'
+    + '<div class="modul-meta"><span class="tag">' + esc(m.level) + '</span>' + (m.source === 'ai' ? '<span class="tag ai">✨ AI</span>' : '<span class="tag manual">✍️ Manual</span>') + (n ? '<span class="tag q">' + n + ' soal</span>' : '') + '</div><span class="go">Buka modul →</span></a>';
+}).join('');
+observeReveal();
+</script>
+</body>
+</html>

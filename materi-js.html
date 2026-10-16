@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>JavaScript — NetQuest</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF5556'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>⚡</text></svg>">
+</head>
+<body>
+<div class="dash">
+  <aside class="sidebar" id="sideBar"></aside>
+  <div class="dash-main">
+    <div class="topbar" id="topBar"></div>
+    <main class="dash-content">
+      <a class="back-link" href="materi.html">← Semua materi</a>
+      <div class="page-head"><div><span class="eyebrow">Modul 3 · Menengah · Fase F</span><h2>JavaScript</h2></div></div>
+      <div class="lesson-wrap">
+<div class="lesson"><h4>📖 Apa itu JavaScript?</h4>
+<p>JavaScript adalah bahasa pemrograman yang membuat halaman web <b>hidup dan interaktif</b>. Tombol yang bisa diklik, game, kuis di NetQuest ini — semuanya dibuat dengan JavaScript!</p></div>
+<div class="lesson"><h4>📦 Variabel — Tempat Menyimpan Data</h4>
+<div class="code"><span class="cm">// 3 cara membuat variabel</span>
+<span class="attr">let</span> nama = <span class="cm">"Budi"</span>;      <span class="cm">// bisa diubah</span>
+<span class="attr">const</span> pi = 3.14;        <span class="cm">// tetap / tidak bisa diubah</span>
+<span class="attr">var</span> umur = 17;          <span class="cm">// cara lama</span>
+
+alert(<span class="cm">"Halo, "</span> + nama + <span class="cm">"!"</span>);  <span class="cm">// menampilkan popup</span></div></div>
+<div class="lesson"><h4>🔀 Percabangan (if-else)</h4>
+<div class="code"><span class="attr">let</span> nilai = 85;
+
+<span class="tag">if</span> (nilai >= 75) {
+  console.log(<span class="cm">"Lulus! 🎉"</span>);
+} <span class="tag">else</span> {
+  console.log(<span class="cm">"Belum lulus, semangat!"</span>);
+}</div></div>
+<div class="lesson"><h4>🔁 Perulangan (for)</h4>
+<div class="code"><span class="tag">for</span> (<span class="attr">let</span> i = 1; i <= 5; i++) {
+  console.log(<span class="cm">"Perulangan ke-"</span> + i);
+}</div></div>
+<div class="lesson"><h4>✏️ Tugas Kecil</h4><p>Buka template JavaScript di <a href="lab.html"><b>Lab Koding</b></a>, ubah nilai variabel <b>nilai</b> menjadi di bawah 75, jalankan, dan lihat hasilnya di kotak dialog!</p></div>
+    <div class="cta-lab">
+      <h3>✏️ Sudah paham? Buktikan!</h3>
+      <p>Coba praktik kode ini di Lab Koding, lalu uji pemahamanmu di Arena Game.</p>
+      <a href="lab.html" class="btn btn-orange">🧪 Buka Lab Koding</a>
+      <a href="games.html" class="btn btn-outline">🎮 Arena Game</a>
+    </div>
+    <div class="lesson-nav"><a href="materi-css.html">← ← CSS Dasar</a><a href="materi-web.html" class="next">Lanjut: Web Lanjut →</a></div>
+      </div>
+    </main>
+    <footer class="foot" id="pageFoot"></footer>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>renderDash('materi', 'Materi');</script>
+</body>
+</html>
